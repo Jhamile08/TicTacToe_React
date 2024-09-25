@@ -44,6 +44,12 @@ export function App () {
         }
     }
 
+    const resetGame = () => {
+        setBoard(Array(9).fill(null))
+        setTurn(Turns.X)
+        setWinner(null)
+    }
+
     const updateBoard = (index) => {
         if (board[index] || winner) return 
 
@@ -56,7 +62,6 @@ export function App () {
         const newWinner = checkWinner(newBoard)
         if(newWinner){
             setWinner(newWinner)
-            alert(`El ganador es ${newWinner}`)
         }
     }
 
@@ -64,6 +69,7 @@ export function App () {
         <>
         <main className='board'>
             <h1>Tik tak toe</h1>
+            <button onClick={resetGame}>Reset del juego</button>
             <section className="game">
                 {
                     board.map(( _, index) => {
@@ -77,6 +83,29 @@ export function App () {
                 <Square isSelected={turn === Turns.X} >{Turns.X}</Square>
                 <Square isSelected={turn === Turns.O}>{Turns.O}</Square>
             </section>
+            {
+                winner !== null && (
+                    <section className="winner">
+                        <div className="text">
+                            <h2>
+                                {
+                                    winner === false
+                                    ? 'empate'
+                                    : 'ganó: '
+                                }
+                            </h2>
+                            <header className="win">
+                                {
+                                    winner && <Square>{winner}</Square>
+                                }
+                            </header>
+                            <footer>
+                                <button onClick={resetGame}>Empezar de nuevo</button>
+                            </footer>
+                        </div>
+                    </section>
+                )
+            }
         </main>
         </>
     )
